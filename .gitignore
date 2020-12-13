@@ -1,0 +1,7 @@
+Client/.vscode
+Server/.vscode
+Client/build
+Server/build
+Client/CMakeLists.txt
+Server/CMakeLists.txt
+Server/rapport
