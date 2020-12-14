@@ -111,6 +111,7 @@ int main(int argc, char **argv)
 			}
 
 			unique = 0;
+			counter = 19;
 
 			if (dsc > maxDS)
 				maxDS = dsc;
