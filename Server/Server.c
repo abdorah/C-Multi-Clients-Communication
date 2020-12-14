@@ -22,6 +22,7 @@ int main(int argc, char **argv)
 	int clientlen;
 
 	int unique = 0;
+	int counter = 19;
 
 	struct sockaddr_in srvAddr, cltAddr;
 
@@ -67,8 +68,6 @@ int main(int argc, char **argv)
 			send(dsc, welcome, strlen(welcome), 0);
 			memset(welcome, '\0', 1024);
 			recv(dsc, welcome, 1024, 0);
-
-			int counter = 19;
 
 			while (0 <= counter && strcmp(pseudonames[counter], welcome) != 0)
 			{
