@@ -9,7 +9,14 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-void check(int test, char *message_err);
+void check(int test, char *message_err)
+{
+  if (test == -1)
+  {
+    perror(message_err);
+    exit(1);
+  }
+}
 
 int main(int argc, char *argv[])
 {
@@ -56,14 +63,5 @@ int main(int argc, char *argv[])
       printf("%s\n", message2);
       memset(message2, '\0', 1024);
     }
-  }
-}
-
-void check(int test, char *message_err)
-{
-  if (test == -1)
-  {
-    perror(message_err);
-    exit(1);
   }
 }
