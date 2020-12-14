@@ -5,3 +5,4 @@ Server/build
 Client/CMakeLists.txt
 Server/CMakeLists.txt
 Server/rapport
+.vscode
