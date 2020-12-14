@@ -11,9 +11,10 @@
 
 int main(int argc, char **argv)
 {
-
 	int dss, dsc;
 	char *pseudonames[20];
+	
+	// memory allocation for the username
 	for (int counter = 0; counter < 20; counter++)
 	{
 		pseudonames[counter] = calloc(1024, sizeof(char));
@@ -34,6 +35,7 @@ int main(int argc, char **argv)
 	dss = socket(AF_INET, SOCK_STREAM, 0);
 	memset((char *)&srvAddr, '\0', sizeof(srvAddr));
 
+	//configuration of the server endpoint
 	srvAddr.sin_family = AF_INET;
 	srvAddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	srvAddr.sin_port = htons(8084);
@@ -47,6 +49,9 @@ int main(int argc, char **argv)
 	FD_SET(dss, &readAllfd);
 	maxDS = dss;
 
+	/*events listening by the server:
+		the server use this while loop to listen to any signale from any on of its clients.
+	*/
 	while (1)
 	{
 
@@ -54,6 +59,7 @@ int main(int argc, char **argv)
 		readfds = readAllfd;
 		select(maxDS + 1, &readfds, NULL, NULL, NULL);
 
+		//the first use case is in which the client try to connect
 		if (FD_ISSET(dss, &readfds))
 		{
 
@@ -62,13 +68,15 @@ int main(int argc, char **argv)
 			cptclt++;
 			FD_SET(dsc, &readAllfd);
 			dsclt[cptclt - 1] = dsc;
-
+			
+			//ask the new client to give his or her name
 			char *welcome = calloc(1024, sizeof(char));
 			strcpy(welcome, "saisir un pseudo nom\n");
 			send(dsc, welcome, strlen(welcome), 0);
 			memset(welcome, '\0', 1024);
 			recv(dsc, welcome, 1024, 0);
 
+			//assert that the client name isn't already registred
 			while (0 <= counter && strcmp(pseudonames[counter], welcome) != 0)
 			{
 				counter = counter - 1;
@@ -123,6 +131,7 @@ int main(int argc, char **argv)
 					memset(msg, '\0', 1024);
 					n = recv(dsc, msg, 1024, 0);
 
+					//the second possible event is the user deconection
 					if (n == 0)
 					{
 
@@ -145,6 +154,7 @@ int main(int argc, char **argv)
 						break;
 					}
 
+					//finally one user send a message and then the server share it with all the other clients
 					else if (n > 0)
 					{
 						for (int k = 0; k < cptclt; k++)
@@ -152,7 +162,7 @@ int main(int argc, char **argv)
 
 							if (dsclt[k] != dsc)
 							{
-								printf("found\n");
+								printf("message bien destribué\n");
 
 								strcat(tmp, pseudonames[i]);
 								strcat(tmp, " : ");

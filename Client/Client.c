@@ -9,6 +9,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+//fonction to show a message in case of error
 void check(int test, char *message_err)
 {
   if (test == -1)
@@ -27,6 +28,8 @@ int main(int argc, char *argv[])
 
   struct sockaddr_in adrsrv;
   adrsrv.sin_family = AF_INET;
+
+  //configuration of the connection to the server
   adrsrv.sin_port = htons(8084);
   inet_aton("127.0.0.1", &(adrsrv.sin_addr));
   memset(&(adrsrv.sin_zero), '0', 8);
@@ -40,9 +43,9 @@ int main(int argc, char *argv[])
   FD_SET(inputstd, &readAllfd);
   FD_SET(dsc, &readAllfd);
   maxDS = dsc;
+  //start listening on the provided address and port
   while (1)
   {
-
     FD_ZERO(&readAllfd);
     FD_SET(inputstd, &readAllfd);
     FD_SET(dsc, &readAllfd);
@@ -50,6 +53,7 @@ int main(int argc, char *argv[])
 
     select(maxDS + 1, &readAllfd, NULL, NULL, NULL);
 
+	//send event
     if (FD_ISSET(inputstd, &readAllfd))
     {
       memset(message, '\0', 1024);
@@ -57,6 +61,7 @@ int main(int argc, char *argv[])
       send(dsc, message, strlen(message), 0);
       memset(message, '\0', 1024);
     }
+	//receive event
     else if (FD_ISSET(dsc, &readAllfd))
     {
       recv(dsc, message2, 1024, 0);
