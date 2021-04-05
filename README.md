@@ -34,3 +34,17 @@ char *pseudonames[20];
 To use this code on your linux machine you need just to run the `Server.c` first and then run as much as you need of instaces of the `Client.c`. Then each client can decide his or her name and communicate with the others.
 
 You can find in the **Assets** directorie some pictures that will show you an example of execution of the code.
+***
+
+### Demo
+1. run the server:
+![server](Assets/server.png)
+
+2. run the first client:
+![first client](Assets/client-1.png)
+
+2. run the second client:
+![second client](Assets/client-2.png)
+
+2. run the third client:
+![second client](Assets/client-3.png)
